@@ -1,4 +1,4 @@
-# Work Day Scheduler using JQuery
+# [Work Day Scheduler using JQuery](https://alapsraval.github.io/work-day-scheduler/)
 A simple calendar application that allows a user to save events for each hour of the day.
 
 ## How It Works
