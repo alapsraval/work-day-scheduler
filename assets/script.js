@@ -5,9 +5,11 @@ $(function () {
     let hours = [];
     let currentDayEl = $('#currentDay');
     let timeBlocksEl = $('#timeBlocks');
+    let clearBtn = $('#clearBtn');
     //let schedule = [];
 
     function init() {
+        reset();
         for (var i = 9; i <= 21; i++) {
             hours.push(i);
         }
@@ -23,6 +25,11 @@ $(function () {
         setInterval(function () {
             setRowColor();
         }, 60000);
+    }
+
+    function reset() {
+        timeBlocksEl.empty();
+        hours = [];
     }
 
     // display current day on the page
@@ -88,16 +95,34 @@ $(function () {
 
         // save it to locastorage
         setSchedule(`hour-${hour}`, description);
-        // show message to user
-        $('.alert-message').fadeIn(1000, function () {
-            // hide message after 2 seconds
-            $('.alert-message').fadeOut(2000);
-        });
+        toggleAlertMessage('save');
 
+    }
+
+    function toggleAlertMessage(alertType) {
+        // show message to user
+        if (alertType == 'save') {
+            $('.alert-message.text-success').fadeIn(1000, function () {
+                // hide message after 2 seconds
+                $('.alert-message.text-success').fadeOut(2000);
+            });
+        }else if(alertType == 'clear'){
+            $('.alert-message.text-danger').fadeIn(1000, function () {
+                // hide message after 2 seconds
+                $('.alert-message.text-danger').fadeOut(2000);
+            });
+        }
+    }
+
+    function clearSchedule() {
+        localStorage.clear();
+        init();
+        toggleAlertMessage('clear');
     }
 
     //event handlers
     init();
     $(document).on('click', '.saveBtn', saveSchedule);
+    clearBtn.on('click', clearSchedule);
 
 });
