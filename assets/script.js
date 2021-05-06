@@ -89,10 +89,10 @@ $(function () {
         // save it to locastorage
         setSchedule(`hour-${hour}`, description);
         // show message to user
-        $('.alert-message').fadeIn(1000, function(){
+        $('.alert-message').fadeIn(1000, function () {
+            // hide message after 2 seconds
             $('.alert-message').fadeOut(2000);
-        });	
-        // hide message after 2 seconds
+        });
 
     }
 
