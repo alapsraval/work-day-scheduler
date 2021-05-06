@@ -70,6 +70,13 @@ textarea {
   transition: all 0.3s ease-in-out;
 }
 
+.alert-message-container{
+  position: fixed;
+  left: 45%;
+  z-index: 999;
+  margin-top: -25px;
+}
+
 .alert-message{
   display: none;
 }

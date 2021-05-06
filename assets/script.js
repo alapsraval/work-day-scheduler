@@ -48,10 +48,10 @@ $(function () {
                 .addClass('col-md-1 hour pt-2 small')
                 .text(`${hourInLT}`);
             let textCol = $('<textarea>')
-                .addClass('col-md-10 description')
+                .addClass('col-10 col-md-10 description')
                 .text(getSchedule(`hour-${hour}`));  // load data from local storage and put it in the correct row
             let btnCol = $('<button>')
-                .addClass('col-md-1 saveBtn')
+                .addClass('btn col-2 col-md-1 saveBtn')
                 .append('<i class="fas fa-save"></i>');
             timeBlock.append(hourCol, textCol, btnCol);
             timeBlocksEl.append(timeBlock);
@@ -69,6 +69,8 @@ $(function () {
             if (rowHour < currentHour) {
                 //if rowHour is in past, add class "past" and make field read only
                 $(this).children('textarea').addClass('past').attr('readonly', true);
+                // disable button
+                $(this).children('button').attr('disabled', true);
             } else if (rowHour == currentHour) {
                 //if rowHour is current
                 $(this).children('textarea').addClass('present');
@@ -106,7 +108,7 @@ $(function () {
                 // hide message after 2 seconds
                 $('.alert-message.text-success').fadeOut(2000);
             });
-        }else if(alertType == 'clear'){
+        } else if (alertType == 'clear') {
             $('.alert-message.text-danger').fadeIn(1000, function () {
                 // hide message after 2 seconds
                 $('.alert-message.text-danger').fadeOut(2000);
