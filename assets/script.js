@@ -5,6 +5,7 @@ $(function () {
     let hours = [];
     let currentDayEl = $('#currentDay');
     let timeBlocksEl = $('#timeBlocks');
+    //let schedule = [];
 
     function init() {
         for (var i = 9; i <= 21; i++) {
@@ -22,7 +23,12 @@ $(function () {
         setInterval(function () {
             setRowColor();
         }, 60000);
+    }
 
+    // display current day on the page
+    function displayCurrentDay() {
+        let currentDate = moment().format('MMM DD, YYYY hh:mm:ss');
+        currentDayEl.text(currentDate);
     }
 
     function addRows() {
@@ -31,9 +37,15 @@ $(function () {
             let timeBlock = $('<div>')
                 .addClass('row time-block')
                 .data('hour', hour);
-            let hourCol = $('<div>').addClass('col-md-1 hour pt-2 small').text(`${hourInLT}`);
-            let textCol = $('<textarea>').addClass('col-md-10 description');
-            let btnCol = $('<button>').addClass('col-md-1 saveBtn').append('<i class="fas fa-save"></i>');
+            let hourCol = $('<div>')
+                .addClass('col-md-1 hour pt-2 small')
+                .text(`${hourInLT}`);
+            let textCol = $('<textarea>')
+                .addClass('col-md-10 description')
+                .text(getSchedule(`hour-${hour}`));  // load data from local storage and put it in the correct row
+            let btnCol = $('<button>')
+                .addClass('col-md-1 saveBtn')
+                .append('<i class="fas fa-save"></i>');
             timeBlock.append(hourCol, textCol, btnCol);
             timeBlocksEl.append(timeBlock);
         });
@@ -61,13 +73,31 @@ $(function () {
 
     }
 
-    // display current day on the page
-    function displayCurrentDay() {
-        let currentDate = moment().format('MMM DD, YYYY hh:mm:ss');
-        currentDayEl.text(currentDate);
+    function getSchedule(key) {
+        return localStorage.getItem(key);
+    }
+
+    function setSchedule(key, value) {
+        localStorage.setItem(key, value);
+    }
+
+    function saveSchedule() {
+        // get textarea content
+        let hour = $(this).parent().data('hour');
+        let description = $(this).prev('.description').val();
+
+        // save it to locastorage
+        setSchedule(`hour-${hour}`, description);
+        // show message to user
+        $('.alert-message').fadeIn(1000, function(){
+            $('.alert-message').fadeOut(2000);
+        });	
+        // hide message after 2 seconds
+
     }
 
     //event handlers
     init();
+    $(document).on('click', '.saveBtn', saveSchedule);
 
 });
